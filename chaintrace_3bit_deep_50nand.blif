@@ -1,0 +1,87 @@
+# ChainTrace 3-bit deep intent-lock safety interlock
+#
+# Deep version: the Vault still computes semantic checks from real state,
+# but the TapeOut circuit also enforces a local numeric policy on the raw
+# three-bit amount. This makes the Processor do more than AND precomputed
+# flags while staying within the 50-NAND target.
+#
+# amount0/1/2: ordinary binary amount, LSB first (0..7)
+# amount_policy_ok: circuit accepts 1..5 and rejects 0, 6 and 7
+# numeric_ok: amount <= singleLimit, spent+amount <= totalBudget,
+#             and amount <= token.balanceOf(vault)
+# caller_ok: msg.sender == session.agent
+# task_ok: task enabled and not expired
+# order_ok: order belongs to task and is unused
+# replay_ok: order nonce/execution id has not already been replayed
+# state_version_ok: request matches the current session/task policy version
+# recipient_ok: recipient matches order and merchant allowlist
+# token_ok: token address is registered/allowed
+# spender_ok: spender/allowance target is approved
+# router_ok: router/execution target is approved when swapping
+# pool_ok: pool(s) are approved when swapping
+# slippage_ok: observed slippage/deadline/quote is within policy
+# intent_binding_ok: descriptionHash/schema and observed calldata match intent
+# metadata_ok: untrusted token metadata passes policy
+#
+# The Vault must generate all semantic bits internally. The frontend cannot
+# supply them. The fixed Processor and fixed Circuit ID are hard-coded by the
+# Vault, and the return format is checked before any state mutation.
+#
+# Deep-gate estimate from the previously observed TapeOut mapping:
+# old OR3 C1 (6 NAND) is replaced by OR3 + two NOTs + OR2 + AND2 (about 14),
+# adding about 8 netlist NANDs. Estimated total: 43 netlist + 4 buffers = 47.
+# Re-import into TapeOut to confirm the platform's current synthesis count.
+# Every .names node has <= 8 inputs for TapeOut compatibility.
+#
+.model chaintrace_3bit_deep_50nand
+.inputs amount0 amount1 amount2 numeric_ok caller_ok task_ok order_ok recipient_ok token_ok replay_ok state_version_ok spender_ok router_ok pool_ok slippage_ok intent_binding_ok metadata_ok
+.outputs allow block
+
+# C1a: amount_nonzero = amount0 OR amount1 OR amount2.
+.names amount0 amount1 amount2 amount_nonzero
+1-- 1
+-1- 1
+--1 1
+
+# C1b: invert the two high-order bits.
+.names amount1 not_amount1
+0 1
+.names amount2 not_amount2
+0 1
+
+# C1c: values 0..5 have not_amount1 OR not_amount2 true;
+#      values 6 and 7 have both high bits set and fail this policy.
+.names not_amount1 not_amount2 amount_high_bits_ok
+1- 1
+-1 1
+
+# C1d: amount_policy_ok = amount_nonzero AND amount_high_bits_ok.
+#      Accepted values: 1,2,3,4,5. Rejected values: 0,6,7.
+.names amount_nonzero amount_high_bits_ok amount_policy_ok
+11 1
+
+# C2a: state_base = amount_policy_ok AND numeric_ok AND caller_ok AND task_ok.
+.names amount_policy_ok numeric_ok caller_ok task_ok state_base
+1111 1
+
+# C2b: state_order = order_ok AND recipient_ok AND token_ok AND replay_ok AND state_version_ok.
+.names order_ok recipient_ok token_ok replay_ok state_version_ok state_order
+11111 1
+
+# C2: state_group = state_base AND state_order.
+.names state_base state_order state_group
+11 1
+
+# C3: route_group = spender/router/pool/slippage/intent/content checks.
+.names spender_ok router_ok pool_ok slippage_ok intent_binding_ok metadata_ok route_group
+111111 1
+
+# C4: allow = state_group AND route_group.
+.names state_group route_group allow
+11 1
+
+# C5: block = NOT allow.
+.names allow block
+0 1
+
+.end
