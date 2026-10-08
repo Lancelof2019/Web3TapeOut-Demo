@@ -1,0 +1,6 @@
+Processor contract:0xb4ae4b41ba39c8ec0b6b37c3c5f89e01220aaefc
+
+Wallet:0x3fedc59f9278941ab1c30e237ee7c40e47643ab7
+
+Circuit:0x6d0eb03da344d326d7da39a4211f90c7417661d1
+Circuit ID:#1
