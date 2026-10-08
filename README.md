@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://chaintrace-intentlock-demo.pigguledou.chatgpt.site/?v=11-evidence-layout">
+  <a href="https://chaintrace-intentlock-demo.pigguledou.chatgpt.site/">
     🚀 <strong>Launch Live Demo</strong>
   </a>
 </p>
@@ -18,7 +18,7 @@
 
 ## 🌐 Live Demo
 
-**Explore IntentLock:** [Open the IntentLock Demo ↗](https://chaintrace-intentlock-demo.pigguledou.chatgpt.site/?v=11-evidence-layout)
+**Explore IntentLock:** [Open the IntentLock Demo ↗](https://chaintrace-intentlock-demo.pigguledou.chatgpt.site/)
 
 Click the link above to open the interactive demo directly in your browser.
 
@@ -39,7 +39,7 @@ This project provides a convenient entry point for exploring the IntentLock demo
 
 ## 🔎 Key References
 
-* **Live Application:** [IntentLock Demo](https://chaintrace-intentlock-demo.pigguledou.chatgpt.site/?v=11-evidence-layout)
+* **Live Application:** [IntentLock Demo](https://chaintrace-intentlock-demo.pigguledou.chatgpt.site/)
 * **Processor Contract:** `0xb4ae4b41ba39c8ec0b6b37c3c5f89e01220aaefc`
 * **Wallet Address:** `0x3fedc59f9278941ab1c30e237ee7c40e47643ab7`
 * **Circuit Reference:** `0x6d0eb03da344d326d7da39a4211f90c7417661d1`
@@ -47,7 +47,7 @@ This project provides a convenient entry point for exploring the IntentLock demo
 
 ## 🚀 Getting Started
 
-1. Open the [IntentLock Live Demo](https://chaintrace-intentlock-demo.pigguledou.chatgpt.site/?v=11-evidence-layout).
+1. Open the [IntentLock Live Demo](https://chaintrace-intentlock-demo.pigguledou.chatgpt.site/).
 2. Explore the available demo interface.
 3. Reference the contract and circuit identifiers above when inspecting the associated configuration.
 
