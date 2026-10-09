@@ -44,6 +44,7 @@ This project provides a convenient entry point for exploring the IntentLock demo
 * **Wallet Address:** `0x3fedc59f9278941ab1c30e237ee7c40e47643ab7`
 * **Circuit Reference:** `0x6d0eb03da344d326d7da39a4211f90c7417661d1`
 * **Circuit Identifier:** `#1`
+* **OKLink:** `https://www.oklink.com/x-layer/evm/address/0x3fEdC59f9278941aB1c30e237eE7c40e47643aB7`
 
 ## 🚀 Getting Started
 
